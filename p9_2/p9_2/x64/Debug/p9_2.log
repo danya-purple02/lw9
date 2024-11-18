@@ -1,4 +1,4 @@
 ﻿  main.cpp
-C:\prog\PSU\logics\lw9\p9_2\p9_2\main.cpp(12,6): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
-C:\prog\PSU\logics\lw9\p9_2\p9_2\main.cpp(50,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\prog\PSU\logics\lw9\p9_2\p9_2\main.cpp(29,6): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
+C:\prog\PSU\logics\lw9\p9_2\p9_2\main.cpp(97,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
   p9_2.vcxproj -> C:\prog\PSU\logics\lw9\p9_2\x64\Debug\p9_2.exe
