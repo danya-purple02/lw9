@@ -19,13 +19,15 @@ struct Graph
 
 int** create_adjacency_matrix(int v);
 int cout_matrix(int** G, int v);
+//void BFS_matrix(int** g, int s, int size, bool* vis, int* d);
 void BFSD_matrix(int** g, int v, int size, bool* vis, int* d);
 void DFSD_matrix(int** g, int s, int size, bool* vis, int* d);
 
 struct Graph* create_adjacency_list(int vertexes);
 struct Node* create_vertex(int vertex);
 void connect_vertexes(struct Graph* graph, int coll, int dest);
-void cout_adjacency_list(struct Graph* graph);
+void cout_adjacency_list(struct Graph* graph); 
+void DFS_matrix(int** g, int s, int size, bool* vis, int* d, int depth);
 void BFSD_list(struct Graph* G, int start, int size, bool* vis, int* d);
 void DFSD_list(struct Graph* G, int s, int size, bool* vis, int* d);
 
@@ -42,55 +44,7 @@ void main()
 	//
 	//
 	//
-	//
-	bool *visited = new bool[size];
-	int *depth = new int[size];
-	for (int i = 0; i < size; i++) 
-	{
-		visited[i] = 0;
-		depth[i] = 0;
-	}
-	cout << endl << "input input number of vertex to star with: ";
-	cin >> to_start_with;
-	cout << endl;
-	cout << "Breadth-first matrix search: " << endl;
-	while (!visited[to_start_with])
-	{
-		BFSD_matrix(M, to_start_with, size, visited, depth);
-	}
-
-	cout << endl << endl << "  Depth of vertexes: " << endl;
-	cout << "vertex		depth" << endl;
-	for (int i = 0; i < size; i++) 
-	{
-		cout << "  " << i << "		  " << depth[i] << endl;
-	}
-	cout << endl << "--------------------------------------------" << endl;
-	//
-	//
-	//
-	for (int i = 0; i < size; i++)
-	{
-		visited[i] = 0;
-		depth[i] = 0;
-	}
-	cout << endl << "First-deep matrix search: " << endl;
-	DFSD_matrix(M, to_start_with, size, visited, depth);
-
-	cout << endl << endl << "  Depth of vertexes: " << endl;
-	cout << "vertex		depth" << endl;
-	for (int i = 0; i < size; i++)
-	{
-		cout << "  " << i << "		  " << depth[i] << endl;
-	}
-	cout << endl << "--------------------------------------------" << endl;
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+	// 
 	struct Graph* M1 = create_adjacency_list(size);
 	for (int i = 0; i < size; i++)
 	{
@@ -103,14 +57,17 @@ void main()
 		}
 	}
 	cout_adjacency_list(M1);
+	
+	bool* visited = new bool[size];
+	int* depth = new int[size];
 	//
 	//
 	//
 	//
-	// 
 	//
 	//
-	for (int i = 0; i < size; i++)
+	//
+	for (int i = 0; i < size; i++) 
 	{
 		visited[i] = 0;
 		depth[i] = 0;
@@ -118,19 +75,41 @@ void main()
 	cout << endl << "input input number of vertex to star with: ";
 	cin >> to_start_with;
 	cout << endl;
-	cout << "Breadth-first list search: " << endl;
+	cout << "SHIRINA:";
+	cout << endl;
+	cout << "matrix: " << endl;
+	while (!visited[to_start_with])
+	{
+		BFSD_matrix(M, to_start_with, size, visited, depth);
+	}
+	/*cout << endl << endl << "  Depth of vertexes: " << endl;
+	cout << "vertex		depth" << endl;
+	for (int i = 0; i < size; i++)
+	{
+		cout << "  " << i << "		  " << depth[i] << endl;
+	}*/
+	cout << endl;
+	//
+	//
+	//
+	cout << "list: " << endl;
+	for (int i = 0; i < size; i++)
+	{
+		visited[i] = 0;
+		depth[i] = 0;
+	}
 	while (!visited[to_start_with])
 	{
 		//BFSD_matrix(M, to_start_with, size, visited, depth);
 		BFSD_list(M1, to_start_with, size, visited, depth);
 	}
-	cout << endl << endl << "  Depth of vertexes: " << endl;
+	/*cout << endl << endl << "  Depth of vertexes: " << endl;
 	cout << "vertex		depth" << endl;
 	for (int i = 0; i < size; i++)
 	{
 		cout << "  " << i << "		  " << depth[i] << endl;
-	}
-	cout << endl << "--------------------------------------------" << endl;
+	}*/
+	cout << endl << "--------------------------------------------";
 	//
 	//
 	//
@@ -139,14 +118,50 @@ void main()
 		visited[i] = 0;
 		depth[i] = 0;
 	}
-	cout << endl << "First-deep list search: " << endl;
-	DFSD_list(M1, to_start_with, size, visited, depth);
-	cout << endl << endl << "  Depth of vertexes: " << endl;
+	cout << endl << "GLUBINA: " << endl;
+	cout << "matrix(recursive): " << endl;
+
+	DFS_matrix(M, to_start_with, size, visited, depth, 0);
+	/*cout << endl << endl << "  Depth of vertexes: " << endl;
 	cout << "vertex		depth" << endl;
 	for (int i = 0; i < size; i++)
 	{
 		cout << "  " << i << "		  " << depth[i] << endl;
+	}*/
+	cout << endl;
+	//
+	//
+	//
+	for (int i = 0; i < size; i++)
+	{
+		visited[i] = 0;
+		depth[i] = 0;
 	}
+	cout << "matrix: " << endl;
+	DFSD_matrix(M, to_start_with, size, visited, depth);
+	/*cout << endl << endl << "  Depth of vertexes: " << endl;
+	cout << "vertex		depth" << endl;
+	for (int i = 0; i < size; i++)
+	{
+		cout << "  " << i << "		  " << depth[i] << endl;
+	}*/
+	cout << endl;
+	//
+	//
+	//
+	for (int i = 0; i < size; i++)
+	{
+		visited[i] = 0;
+		depth[i] = 0;
+	}
+	cout << "list: " << endl;
+	DFSD_list(M1, to_start_with, size, visited, depth);
+	/*cout << endl << endl << "  Depth of vertexes: " << endl;
+	cout << "vertex		depth" << endl;
+	for (int i = 0; i < size; i++)
+	{
+		cout << "  " << i << "		  " << depth[i] << endl;
+	}*/
 	cout << endl << "--------------------------------------------" << endl;
 	return;
 }
@@ -248,6 +263,19 @@ void DFSD_matrix(int** g, int s, int size, bool* vis, int* d)
 	}
 }
 
+void DFS_matrix(int** g, int s, int size, bool* vis, int* d, int depth)
+{
+	vis[s] = 1;
+	d[s] = depth;
+	cout << s << " -> ";
+	for (int i = 0; i < size; i++)
+	{
+		if (g[s][i] == 1 && vis[i] == 0)
+		{
+			DFS_matrix(g, i, size, vis, d, depth + 1);
+		}
+	}
+}
 
 
 
