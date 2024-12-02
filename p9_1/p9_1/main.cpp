@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -19,12 +20,14 @@ struct Graph
 int** create_adjacency_matrix(int v);
 int cout_matrix(int** G, int v);
 void BFSD_matrix(int** g, int v, int size, bool* vis, int* d);
+void DFSD_matrix(int** g, int s, int size, bool* vis, int* d);
 
 struct Graph* create_adjacency_list(int vertexes);
 struct Node* create_vertex(int vertex);
 void connect_vertexes(struct Graph* graph, int coll, int dest);
 void cout_adjacency_list(struct Graph* graph);
 void BFSD_list(struct Graph* G, int start, int size, bool* vis, int* d);
+void DFSD_list(struct Graph* G, int s, int size, bool* vis, int* d);
 
 void main() 
 {
@@ -33,7 +36,13 @@ void main()
 	cin >> size;
 	int** M = create_adjacency_matrix(size);
 	cout_matrix(M, size);
-
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	bool *visited = new bool[size];
 	int *depth = new int[size];
 	for (int i = 0; i < size; i++) 
@@ -44,7 +53,7 @@ void main()
 	cout << endl << "input input number of vertex to star with: ";
 	cin >> to_start_with;
 	cout << endl;
-	cout << "Breadth-first list search: " << endl;
+	cout << "Breadth-first matrix search: " << endl;
 	while (!visited[to_start_with])
 	{
 		BFSD_matrix(M, to_start_with, size, visited, depth);
@@ -57,12 +66,31 @@ void main()
 		cout << "  " << i << "		  " << depth[i] << endl;
 	}
 	cout << endl << "--------------------------------------------" << endl;
+	//
+	//
+	//
 	for (int i = 0; i < size; i++)
 	{
 		visited[i] = 0;
 		depth[i] = 0;
 	}
+	cout << endl << "First-deep matrix search: " << endl;
+	DFSD_matrix(M, to_start_with, size, visited, depth);
 
+	cout << endl << endl << "  Depth of vertexes: " << endl;
+	cout << "vertex		depth" << endl;
+	for (int i = 0; i < size; i++)
+	{
+		cout << "  " << i << "		  " << depth[i] << endl;
+	}
+	cout << endl << "--------------------------------------------" << endl;
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	struct Graph* M1 = create_adjacency_list(size);
 	for (int i = 0; i < size; i++)
 	{
@@ -75,7 +103,18 @@ void main()
 		}
 	}
 	cout_adjacency_list(M1);
-
+	//
+	//
+	//
+	//
+	// 
+	//
+	//
+	for (int i = 0; i < size; i++)
+	{
+		visited[i] = 0;
+		depth[i] = 0;
+	}
 	cout << endl << "input input number of vertex to star with: ";
 	cin >> to_start_with;
 	cout << endl;
@@ -85,7 +124,23 @@ void main()
 		//BFSD_matrix(M, to_start_with, size, visited, depth);
 		BFSD_list(M1, to_start_with, size, visited, depth);
 	}
-
+	cout << endl << endl << "  Depth of vertexes: " << endl;
+	cout << "vertex		depth" << endl;
+	for (int i = 0; i < size; i++)
+	{
+		cout << "  " << i << "		  " << depth[i] << endl;
+	}
+	cout << endl << "--------------------------------------------" << endl;
+	//
+	//
+	//
+	for (int i = 0; i < size; i++)
+	{
+		visited[i] = 0;
+		depth[i] = 0;
+	}
+	cout << endl << "First-deep list search: " << endl;
+	DFSD_list(M1, to_start_with, size, visited, depth);
 	cout << endl << endl << "  Depth of vertexes: " << endl;
 	cout << "vertex		depth" << endl;
 	for (int i = 0; i < size; i++)
@@ -167,6 +222,34 @@ void BFSD_matrix(int** g, int v, int size, bool* vis, int* d)
 		}
 	}
 }
+
+void DFSD_matrix(int** g, int s, int size, bool* vis, int* d)
+{
+	stack<int> st;
+	st.push(s);
+	vis[s] = 1;
+	d[s] = 0;
+
+	while (!st.empty())
+	{
+		int v = st.top();
+		st.pop();
+		cout << v << " -> ";
+
+		for (int i = size - 1; i >= 0; i--)
+		{
+			if (g[v][i] == 1 && !vis[i])
+			{
+				st.push(i);
+				vis[i] = 1;
+				d[i] = d[v] + 1;
+			}
+		}
+	}
+}
+
+
+
 
 struct Graph* create_adjacency_list(int vertexes)
 {
@@ -256,6 +339,40 @@ void BFSD_list(struct Graph* G, int v, int size, bool* vis, int* d)
 				d[vert] = d[v] + 1;
 			}
 			l = l->next;
+		}
+	}
+}
+
+void DFSD_list(struct Graph* G, int s, int size, bool* vis, int* d)
+{
+	stack<int> st;
+	st.push(s);
+	vis[s] = true;
+	d[s] = 0;
+
+	while (!st.empty())
+	{
+		int current = st.top();
+		st.pop();
+		cout << current << " -> ";
+
+		Node* neighbor = G->list[current];
+
+		vector<int> neighbors_to_visit;
+		while (neighbor != NULL)
+		{
+			neighbors_to_visit.push_back(neighbor->vertex);
+			neighbor = neighbor->next;
+		}
+		for (int i = neighbors_to_visit.size() - 1; i >= 0; --i)
+		{
+			int n_v = neighbors_to_visit[i];
+			if (!vis[n_v])
+			{
+				st.push(n_v);
+				vis[n_v] = true;
+				d[n_v] = d[current] + 1;
+			}
 		}
 	}
 }
